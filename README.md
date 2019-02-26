@@ -16,5 +16,5 @@ $ pip3 freeze > requirements.txt
 TO DEACTIVATE:
 $ deactivate
 
-TO RUN:
+TO RUN: 
 python app.py
