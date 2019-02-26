@@ -16,6 +16,8 @@ app.register_blueprint(shoes_api, url_prefix='/api/v1')
 def hello_world():
     return "Hello World"
 
+
+## true to support credentials when localhost try to connect it saying its true
 CORS(shoes_api, origin=["http://localhost:3000"], supports_credentials=True)
 
 if __name__ == '__main__':
