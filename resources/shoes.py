@@ -9,6 +9,10 @@ shoe_fields = {
     'id': fields.Integer,
     'brand': fields.String,
     'name': fields.String,
+    'size': fields.Float,
+    'price': fields.Integer,
+    'picture': fields.String,
+    'description': fields.String
 }
 
 ## return shoes from db or 404
@@ -18,7 +22,7 @@ def shoe_or_404(shoe_id):
     except models.Shoe.DoesNotExist:
         abort(404)
     else:
-        return dog
+        return shoe
 
 # Resource gives us http methods (get, post, put)
 # get all dogs or create dog
@@ -41,6 +45,35 @@ class ShoeList(Resource):
             help = "No name provided",
             location = ['form', 'json']
         )
+        self.reqparse.add_argument(
+            # what are requests need to look like
+            'size',
+            required = True,
+            help = "No size provided",
+            location = ['form', 'json']
+        )
+        self.reqparse.add_argument(
+            # what are requests need to look like
+            'price',
+            required = True,
+            help = "No price provided",
+            location = ['form', 'json']
+        )
+        self.reqparse.add_argument(
+            # what are requests need to look like
+            'picture',
+            required = True,
+            help = "No picture provided",
+            location = ['form', 'json']
+        )
+        self.reqparse.add_argument(
+            # what are requests need to look like
+            'description',
+            required = True,
+            help = "No description provided",
+            location = ['form', 'json']
+        )
+        
         # inherit from all the component properties
         super().__init__()
 
@@ -54,7 +87,7 @@ class ShoeList(Resource):
         print('this is the postasdfasdfadsf')
         args = self.reqparse.parse_args()
         print(args, ' hitting args in post request in shoe api')
-        shoe = models.Shoe.create(brand=args['brand'], name=args['name'])
+        shoe = models.Shoe.create(brand=args['brand'], name=args['name'], size=args['size'], price=args['price'], picture=args['picture'], description=args['description'])
         print(type(shoe))
         print(shoe.__dict__)
         return shoe, 201
