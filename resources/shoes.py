@@ -77,6 +77,7 @@ class ShoeList(Resource):
         # inherit from all the component properties
         super().__init__()
 
+    
     def get(self):
         shoes = [marshal(shoe, shoe_fields) for shoe in models.Shoe.select()]
         return {'shoes': shoes}
@@ -119,7 +120,7 @@ api = Api(shoes_api)
 api.add_resource(
     ShoeList,
     '/shoes',
-    endpoint = 'shoes'
+    endpoint='shoes'
 )
 
 api.add_resource(

@@ -10,13 +10,14 @@ PORT = 8000
 
 app = Flask(__name__)
 
+CORS(shoes_api, origin=["http://localhost:3000"], supports_credentials=True)
+
 app.register_blueprint(shoes_api, url_prefix='/api/v1')
 
 @app.route('/')
 def hello_world():
     return "Hello World"
 
-CORS(shoes_api, origin=["http://localhost:3000"], supports_credentials=True)
 
 if __name__ == '__main__':
     models.initialize()
