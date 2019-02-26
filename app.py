@@ -2,6 +2,7 @@ from flask import Flask
 # importing our blueprint which is a definition
 ## of our view functions
 from resources.shoes import shoes_api
+from flask_cors import CORS
 import models
 
 DEBUG = True
@@ -14,6 +15,8 @@ app.register_blueprint(shoes_api, url_prefix='/api/v1')
 @app.route('/')
 def hello_world():
     return "Hello World"
+
+CORS(shoes_api, origin=["http://localhost:3000"], supports_credentials=True)
 
 if __name__ == '__main__':
     models.initialize()
