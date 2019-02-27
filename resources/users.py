@@ -8,6 +8,7 @@ from flask_restful import (Resource, Api, reqparse,
 
 from flask_login import login_user, logout_user, login_required, current_user
 import models
+from peewee import *
 
 user_fields = {
     'username': fields.String,
@@ -39,17 +40,68 @@ class UserList(Resource):
         )
         super().__init__()
 
+
     def post(self):
+        logout_user()
+        print(current_user)
+        print('hello')
         args = self.reqparse.parse_args()
-        # if args['password'] == args['password']:
-        #     print(args, ' this is args')
+        # login_user = models.User.select().where(models.User.username==args['username'])
+        login_user = models.User.get(models.User.username==args['username'])
+        if login_user:
+            # print(model_to_dict(login_user))
+            # login_user(login_user)
+            return marshal(login_user, user_fields)
+            # return login_user
+
+        # print(args)
+        # print('args')
+        if args['password'] == args['password']:
+            print(args, ' this is args')
         user = models.User.create_user(username=args['username'], email=args['email'], password=args['password'])
         login_user(user)
+        # print(user)
         return marshal(user, user_fields), 201
-        return make_response(
-            json.dumps({
-                'error': 'Password and password verification do not match'
-            }), 400)
+        # return marshal(user, user_fields), 201
+        # return make_response(
+        #     json.dumps({
+        #         'error': 'Password and password verification do not match'
+        #     }), 400)
+
+
+class UserLogin(Resource):
+    def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument(
+            'username',
+            required=True,
+            help='No username provided',
+            location=['form', 'json']
+        )
+        self.reqparse.add_argument(
+            'email',
+            required=True,
+            help='No email provided',
+            location=['form', 'json']
+        )
+        self.reqparse.add_argument(
+            'password',
+            required=True,
+            help='No password provided',
+            location=['form', 'json']
+        )
+        super().__init__()
+
+    def post(self):
+        args = self.reqparse.parse_args()
+        print(args['username'])
+        logged_user = models.User.get(models.User.username == args['username'])
+        print('---------- logged')
+        if logged_user:
+            login_user(logged_user)
+            print(current_user)
+            print('current_user')
+            return marshal(logged_user, user_fields)
 
 users_api = Blueprint('resources.users', __name__)
 api = Api(users_api)
@@ -58,4 +110,10 @@ api.add_resource(
     UserList,
     '/users',
     endpoint='users'
+)
+
+api.add_resource(
+    UserLogin,
+    '/users/login',
+    endpoint='userslogin'
 )
