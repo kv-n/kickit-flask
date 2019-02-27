@@ -12,7 +12,8 @@ shoe_fields = {
     'size': fields.Float,
     'price': fields.Integer,
     'picture': fields.String,
-    'description': fields.String
+    'description': fields.String,
+    'created_by': fields.String
 }
 
 ## return shoes from db or 404
@@ -73,6 +74,13 @@ class ShoeList(Resource):
             help = "No description provided",
             location = ['form', 'json']
         )
+        self.reqparse.add_argument(
+            # what are requests need to look like
+            'created_by',
+            required = True,
+            help = "No user provided",
+            location = ['form', 'json']
+        )
         
         # inherit from all the component properties
         super().__init__()
@@ -88,7 +96,7 @@ class ShoeList(Resource):
         print('this is the postasdfasdfadsf')
         args = self.reqparse.parse_args()
         print(args, ' hitting args in post request in shoe api')
-        shoe = models.Shoe.create(brand=args['brand'], name=args['name'], size=args['size'], price=args['price'], picture=args['picture'], description=args['description'])
+        shoe = models.Shoe.create(brand=args['brand'], name=args['name'], size=args['size'], price=args['price'], picture=args['picture'], description=args['description'], created_by=args['created_by'])
         print(type(shoe))
         print(shoe.__dict__)
         return shoe, 201
