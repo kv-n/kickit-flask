@@ -43,6 +43,7 @@ class Shoe(Model):
     price = CharField()
     picture = CharField()
     description = CharField()
+    created_by = ForeignKeyField(User, backref='shoe_user')
     
 
     created_at = DateTimeField(default=datetime.datetime.now)
@@ -56,6 +57,10 @@ class Shoe(Model):
     class Meta:
         # class instrcutions on how to build class, what database the class is communcating with
         database = DATABASE
+
+class Kickit(Model):
+    user_id = ForeignKeyField(User, backref='users')
+    shoe_id = ForeignKeyField(Shoe, backref='shoes')
 
 def initialize():
     DATABASE.connect()
