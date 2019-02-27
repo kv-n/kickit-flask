@@ -25,8 +25,8 @@ def load_user(userid):
     except models.DoesNotExist:
         return None
 
-CORS(shoes_api, origin=["http://localhost:3000"], supports_credentials=True)
 CORS(users_api, origin=["http://localhost:3000"], supports_credentials=True)
+CORS(shoes_api, origin=["http://localhost:3000"], supports_credentials=True)
 
 app.register_blueprint(shoes_api, url_prefix='/api/v1')
 app.register_blueprint(users_api, url_prefix='/api/v1')
@@ -49,4 +49,4 @@ if __name__ == '__main__':
     # except ValueError:
     #     pass
 
-    app.run(debug=DEBUG, port=PORT)
+app.run(debug=DEBUG, port=PORT)
