@@ -42,31 +42,18 @@ class UserList(Resource):
 
 
     def post(self):
-        logout_user()
-        print(current_user)
-        print('hello')
         args = self.reqparse.parse_args()
-        # login_user = models.User.select().where(models.User.username==args['username'])
-        login_user = models.User.get(models.User.username==args['username'])
-        if login_user:
-            # print(model_to_dict(login_user))
-            # login_user(login_user)
-            return marshal(login_user, user_fields)
-            # return login_user
-
-        # print(args)
-        # print('args')
-        if args['password'] == args['password']:
-            print(args, ' this is args')
+        # if args['password'] == args['password']:
+        print(args, ' this is args')
         user = models.User.create_user(username=args['username'], email=args['email'], password=args['password'])
         login_user(user)
+        print(user)
         # print(user)
         return marshal(user, user_fields), 201
-        # return marshal(user, user_fields), 201
-        # return make_response(
-        #     json.dumps({
-        #         'error': 'Password and password verification do not match'
-        #     }), 400)
+        return make_response(
+            json.dumps({
+                'error': 'Password and password verification do not match'
+            }), 400)
 
 
 class UserLogin(Resource):
