@@ -41,7 +41,7 @@ class Shoe(Model):
     name = CharField()
     size = CharField()
     price = CharField()
-    picture = CharField()
+    picture = CharField(null=True)
     description = CharField()
     created_by = ForeignKeyField(User, backref='shoe_user')
     
@@ -64,6 +64,6 @@ class Kickit(Model):
 
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([Shoe, User], safe=True)
+    DATABASE.create_tables([User, Shoe], safe=True)
     DATABASE.close()
 
