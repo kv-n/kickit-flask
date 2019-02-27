@@ -18,8 +18,6 @@ PORT = 8000
 app = Flask(__name__)
 CORS(app)
 app.secret_key = config.SECRET_KEY
-app.config['JWT_SECRET_KEY'] = 'HELLO-WORLD'
-jwt = JWTManager(app)
 login_manager.init_app(app)
 
 @login_manager.user_loader
@@ -34,10 +32,6 @@ CORS(shoes_api, origin=["http://localhost:3000"], supports_credentials=True)
 
 app.register_blueprint(shoes_api, url_prefix='/api/v1')
 app.register_blueprint(users_api, url_prefix='/api/v1')
-
-@app.route(('/login'), methods=('GET', 'POST'))
-def login(self):
-    return print('hello')
 
 
 @app.route('/')
