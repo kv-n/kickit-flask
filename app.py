@@ -3,7 +3,7 @@ from flask import Flask
 ## of our view functions
 from resources.shoes import shoes_api
 from resources.users import users_api
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 login_manager = LoginManager()
 
@@ -15,6 +15,7 @@ DEBUG = True
 PORT = 8000
 
 app = Flask(__name__)
+CORS(app)
 app.secret_key = config.SECRET_KEY
 login_manager.init_app(app)
 
@@ -25,8 +26,8 @@ def load_user(userid):
     except models.DoesNotExist:
         return None
 
-CORS(shoes_api, origin=["http://localhost:3000"], supports_credentials=True)
 CORS(users_api, origin=["http://localhost:3000"], supports_credentials=True)
+CORS(shoes_api, origin=["http://localhost:3000"], supports_credentials=True)
 
 app.register_blueprint(shoes_api, url_prefix='/api/v1')
 app.register_blueprint(users_api, url_prefix='/api/v1')

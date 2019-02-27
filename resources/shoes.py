@@ -1,4 +1,4 @@
-from flask import jsonify, Blueprint
+from flask import jsonify, Blueprint, request
 
 from flask_restful import (Resource, Api, reqparse, fields, marshal, marshal_with, url_for)
 
@@ -93,13 +93,14 @@ class ShoeList(Resource):
     @marshal_with(shoe_fields)
     def post(self):
         # dictionary of our arugements
-        print(self.__dict__)
-        print('this is the postasdfasdfadsf')
+        data = request.get_data()
+        # print(data, 'obejctoek')
         args = self.reqparse.parse_args()
         print(args, ' hitting args in post request in shoe api')
         shoe = models.Shoe.create(brand=args['brand'], name=args['name'], size=args['size'], price=args['price'], picture=args['picture'], description=args['description'], created_by=args['created_by'])
-        print(type(shoe))
-        return shoe, 201
+        # print(type(shoe))
+        print(shoe.__dict__, 'this is the show')
+        return shoe
         
 # get all shoes with id (put, delete)
 class Shoe(Resource):
