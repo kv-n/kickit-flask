@@ -39,7 +39,9 @@ def hello_world():
 if __name__ == '__main__':
     models.initialize()
 
+    app.run(debug=DEBUG, port=PORT)
 
+<<<<<<< HEAD
     # try:
     #     models.User.create_user(
     #         username='apple',
@@ -50,3 +52,5 @@ if __name__ == '__main__':
     #     pass
 
 app.run(debug=DEBUG, port=PORT)
+=======
+>>>>>>> 829ac8ea082290506ab18533a78c6cc7e239b1cc

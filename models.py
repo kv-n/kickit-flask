@@ -16,10 +16,10 @@ class User(UserMixin, Model):
     class Meta:
         database = DATABASE
     
-    def get_stream(self):
-        return Shoe.select().where(
-            (Shoe.user == self)
-        )
+#     # def get_stream(self):
+#     #     return Shoe.select().where(
+#     #         (Shoe.user == self)
+#     #     )
 
     @classmethod
     def create_user(cls, username, email, password):
@@ -40,18 +40,18 @@ class Shoe(Model):
     brand = CharField()
     name = CharField()
     size = CharField()
-    price= CharField()
+    price = CharField()
     picture = CharField()
     description = CharField()
     
 
     created_at = DateTimeField(default=datetime.datetime.now)
 
-    user = ForeignKeyField(
-        model=User,
-        backref='shoe'
-        )
-    content = TextField()
+    # user = ForeignKeyField(
+    #     model=User,
+    #     backref='shoe'
+    #     )
+    # content = TextField()
 
     class Meta:
         # class instrcutions on how to build class, what database the class is communcating with
@@ -59,6 +59,6 @@ class Shoe(Model):
 
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([User ,Shoe], safe=True)
+    DATABASE.create_tables([Shoe], safe=True)
     DATABASE.close()
 
