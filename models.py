@@ -59,7 +59,7 @@ class Shoe(Model):
         database = DATABASE
 
 class Kickit(Model):
-    user_id = ForeignKeyField(User, backref='users')
+    user_username = ForeignKeyField(User, backref='users')
     shoe_id = ForeignKeyField(Shoe, backref='shoes')
 
 def initialize():

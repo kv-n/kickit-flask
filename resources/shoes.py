@@ -23,7 +23,7 @@ def shoe_or_404(shoe_id):
     except models.Shoe.DoesNotExist:
         abort(404)
     else:
-        return shoe
+        return shoe, user.username
 
 # Resource gives us http methods (get, post, put)
 # get all dogs or create dog
@@ -93,12 +93,12 @@ class ShoeList(Resource):
     @marshal_with(shoe_fields)
     def post(self):
         # dictionary of our arugements
+        print(self.__dict__)
         print('this is the postasdfasdfadsf')
         args = self.reqparse.parse_args()
         print(args, ' hitting args in post request in shoe api')
         shoe = models.Shoe.create(brand=args['brand'], name=args['name'], size=args['size'], price=args['price'], picture=args['picture'], description=args['description'], created_by=args['created_by'])
         print(type(shoe))
-        print(shoe.__dict__)
         return shoe, 201
         
 # get all shoes with id (put, delete)
@@ -146,6 +146,13 @@ class Shoe(Resource):
             'description',
             required = True,
             help = "No description provided",
+            location = ['form', 'json']
+        )
+        self.reqparse.add_argument(
+            # what are requests need to look like
+            'created_by',
+            required = True,
+            help = "No user provided",
             location = ['form', 'json']
         )
         
