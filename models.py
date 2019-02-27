@@ -59,6 +59,6 @@ class Shoe(Model):
 
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([Shoe], safe=True)
+    DATABASE.create_tables([Shoe, User], safe=True)
     DATABASE.close()
 

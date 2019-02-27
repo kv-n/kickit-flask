@@ -11,6 +11,8 @@ import models
 
 user_fields = {
     'username': fields.String,
+    'email': fields.String,
+    'password': fields.String,
 }
 
 
@@ -36,10 +38,6 @@ class UserList(Resource):
             location=['form', 'json']
         )
         super().__init__()
-
-    def get(self):
-        users = [marshal(user, user_fields) for user in models.User.select()]
-        return user
 
     def post(self):
         args = self.reqparse.parse_args()
