@@ -96,9 +96,11 @@ class UserLogin(Resource):
         else:
             return 'Youre email or password doesnt match'
 
-def logout():
-    # destroying our session
-    logout_user()
+class UserLogout(Resource):
+    def logout(self):
+        # destroying our session
+        logout_user()
+        print('DONT LEAVE ME!!!')
 
 users_api = Blueprint('resources.users', __name__)
 api = Api(users_api)
@@ -113,4 +115,10 @@ api.add_resource(
     UserLogin,
     '/users/login',
     endpoint='userslogin'
+)
+
+api.add_resource(
+    UserLogout,
+    '/users/logout',
+    endpoint='userslogout'
 )
