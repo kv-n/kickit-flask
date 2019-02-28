@@ -99,8 +99,6 @@ class UserLogin(Resource):
 def logout():
     # destroying our session
     logout_user()
-    flash('youve been logged out', 'success')
-    return redirect(url_for('index'))
 
 users_api = Blueprint('resources.users', __name__)
 api = Api(users_api)
