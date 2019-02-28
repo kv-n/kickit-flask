@@ -97,7 +97,7 @@ class UserLogin(Resource):
             return 'Youre email or password doesnt match'
 
 class UserLogout(Resource):
-    def logout(self):
+    def get(self):
         # destroying our session
         logout_user()
         print('DONT LEAVE ME!!!')
