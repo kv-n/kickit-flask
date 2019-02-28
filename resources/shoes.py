@@ -167,15 +167,10 @@ class Shoe(Resource):
 
     # @marshal_with(shoe_fields)
     # def put(self, id):
-<<<<<<< HEAD
-    #     args = self.reqparse.parse_args()
-    #     query =  models.Shoe.update(**args).where(models.Shoe.id==id)
-=======
     #     print('hitting put')
     #     args = self.reqparse.parse_args()
     #     query =  models.Shoe.update(**args).where(models.Shoe.id==id)
     #     print(args)
->>>>>>> 5effd8f508e4ba9456ca2436ccbde918774ec2e8
     #     ##execute the update query
     #     query.execute()
     #     return (models.Shoe.get(models.Shoe.id==id), 200)
@@ -189,10 +184,7 @@ class Shoe(Resource):
 #  when its registered a record of the operations
 # in the file to generate urls
 
-<<<<<<< HEAD
-=======
 # get all shoes with id (put, delete)
->>>>>>> 5effd8f508e4ba9456ca2436ccbde918774ec2e8
 class ShoeEdit(Resource):
     def __init__(self):
         # setting up body-parser
@@ -253,6 +245,7 @@ class ShoeEdit(Resource):
 
     @marshal_with(shoe_fields)
     def put(self, id):
+        print(id)
         print('hitting put')
         args = self.reqparse.parse_args()
         query =  models.Shoe.update(**args).where(models.Shoe.id==id)
@@ -272,11 +265,6 @@ api = Api(shoes_api)
 api.add_resource(
     ShoeList,
     '/shoes'
-)
-
-api.add_resource(
-    Shoes,
-    '/shoes/<int:id>'
 )
 
 api.add_resource(
