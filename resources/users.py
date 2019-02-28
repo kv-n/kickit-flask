@@ -8,6 +8,7 @@ from flask_restful import (Resource, Api, reqparse,
 
 from flask_login import login_user, logout_user, login_required, current_user
 import models
+from flask_bcrypt import check_password_hash
 from peewee import *
 
 user_fields = {
@@ -82,13 +83,15 @@ class UserLogin(Resource):
     def post(self):
         args = self.reqparse.parse_args()
         print(args['username'])
-        logged_user = models.User.get(models.User.username == args['username'])
+        logged_user = models.User.select().where(models.User.username == args['username'])
         print('---------- logged')
-        if logged_user:
+        if logged_user and check_password_hash(logged_user.password, args['password']):
             login_user(logged_user)
             print(current_user)
             print('current_user')
-            return marshal(logged_user, user_fields)
+            return marshal(logged_user.get(), user_fields)
+        else:
+            return 'Youre email or password doesnt match'
 
 users_api = Blueprint('resources.users', __name__)
 api = Api(users_api)
