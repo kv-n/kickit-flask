@@ -83,8 +83,11 @@ class UserLogin(Resource):
     def post(self):
         args = self.reqparse.parse_args()
         print(args['username'])
-        logged_user = models.User.select().where(models.User.username == args['username'])
-        print('---------- logged')
+        try:
+            logged_user = models.User.get(models.User.username == args['username'])
+        except:
+            logged_user = False
+    
         if logged_user and check_password_hash(logged_user.password, args['password']):
             login_user(logged_user)
             print(current_user)
