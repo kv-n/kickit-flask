@@ -101,6 +101,7 @@ class UserLogout(Resource):
         # destroying our session
         logout_user()
         print('DONT LEAVE ME!!!')
+        return 'you left me...'
 
 users_api = Blueprint('resources.users', __name__)
 api = Api(users_api)
