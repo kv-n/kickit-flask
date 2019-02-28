@@ -23,7 +23,7 @@ def shoe_or_404(shoe_id):
     except models.Shoe.DoesNotExist:
         abort(404)
     else:
-        return shoe, user.username
+        return shoe
 
 # Resource gives us http methods (get, post, put)
 # get all dogs or create dog
@@ -165,13 +165,15 @@ class Shoe(Resource):
         ## define a function to find our dog or send a 404
         return shoe_or_404(id)
 
-    @marshal_with(shoe_fields)
-    def put(self, id):
-        args = self.reqparse.parse_args()
-        query =  models.Shoe.update(**args).where(models.Shoe.id==id)
-        ##execute the update query
-        query.execute()
-        return (models.Shoe.get(models.Shoe.id==id), 200)
+    # @marshal_with(shoe_fields)
+    # def put(self, id):
+    #     print('hitting put')
+    #     args = self.reqparse.parse_args()
+    #     query =  models.Shoe.update(**args).where(models.Shoe.id==id)
+    #     print(args)
+    #     ##execute the update query
+    #     query.execute()
+    #     return (models.Shoe.get(models.Shoe.id==id), 200)
 
     def delete(self, id):
         query = models.Shoe.delete().where(models.Shoe.id==id)
@@ -181,6 +183,76 @@ class Shoe(Resource):
 ## the basic idea of a blueprint is that it tells our app
 #  when its registered a record of the operations
 # in the file to generate urls
+
+# get all shoes with id (put, delete)
+class ShoeEdit(Resource):
+    def __init__(self):
+        # setting up body-parser
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument(
+            # what are requests need to look like
+            'brand',
+            required = True,
+            help = "No shoe name provided",
+            location = ['form', 'json']
+        )
+        self.reqparse.add_argument(
+            # what are requests need to look like
+            'name',
+            required = True,
+            help = "No name provided",
+            location = ['form', 'json']
+        )
+        self.reqparse.add_argument(
+            # what are requests need to look like
+            'size',
+            required = True,
+            help = "No size provided",
+            location = ['form', 'json']
+        )
+        self.reqparse.add_argument(
+            # what are requests need to look like
+            'price',
+            required = True,
+            help = "No price provided",
+            location = ['form', 'json']
+        )
+        self.reqparse.add_argument(
+            # what are requests need to look like
+            'picture',
+            required = True,
+            help = "No picture provided",
+            location = ['form', 'json']
+        )
+        self.reqparse.add_argument(
+            # what are requests need to look like
+            'description',
+            required = True,
+            help = "No description provided",
+            location = ['form', 'json']
+        )
+        self.reqparse.add_argument(
+            # what are requests need to look like
+            'created_by',
+            required = True,
+            help = "No user provided",
+            location = ['form', 'json']
+        )
+        
+        # inherit from all the component properties
+        super().__init__()
+    
+
+    @marshal_with(shoe_fields)
+    def put(self, id):
+        print('hitting put')
+        args = self.reqparse.parse_args()
+        query =  models.Shoe.update(**args).where(models.Shoe.id==id)
+        print(args)
+        ##execute the update query
+        query.execute()
+        return (models.Shoe.get(models.Shoe.id==id), 200)
+
 
 ## express app.use(fruitsContoller, /router)
 shoes_api = Blueprint('resources.shoes', __name__)
@@ -197,6 +269,10 @@ api.add_resource(
 
 api.add_resource(
     Shoe,
-    '/shoes/<int:id>',
-    endpoint = 'shoe'
+    '/shoes/<int:id>'
+)
+
+api.add_resource(
+    ShoeEdit,
+    '/shoes/<int:id>/edit'
 )
