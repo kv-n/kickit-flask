@@ -4,7 +4,6 @@ from flask import Flask
 from resources.shoes import shoes_api
 from resources.users import users_api
 from flask_cors import CORS, cross_origin
-from flask_jwt_extended import JWTManager
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 login_manager = LoginManager()
 
