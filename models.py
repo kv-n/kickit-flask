@@ -43,6 +43,7 @@ class Shoe(Model):
     price = CharField()
     picture = CharField(null=True)
     description = CharField()
+    user = CharField()
     created_by = ForeignKeyField(User, backref='shoe_user')
     
 

@@ -13,6 +13,7 @@ shoe_fields = {
     'price': fields.Integer,
     'picture': fields.String,
     'description': fields.String,
+    'user': fields.String,
     'created_by': fields.String
 }
 
@@ -81,6 +82,13 @@ class ShoeList(Resource):
             help = "No user provided",
             location = ['form', 'json']
         )
+        self.reqparse.add_argument(
+            # what are requests need to look like
+            'user',
+            required = True,
+            help = "No user provided",
+            location = ['form', 'json']
+        )
         
         # inherit from all the component properties
         super().__init__()
@@ -97,7 +105,7 @@ class ShoeList(Resource):
         # print(data, 'obejctoek')
         args = self.reqparse.parse_args()
         print(args, ' hitting args in post request in shoe api')
-        shoe = models.Shoe.create(brand=args['brand'], name=args['name'], size=args['size'], price=args['price'], picture=args['picture'], description=args['description'], created_by=args['created_by'])
+        shoe = models.Shoe.create(brand=args['brand'], name=args['name'], size=args['size'], price=args['price'], picture=args['picture'], description=args['description'], created_by=args['created_by'], user=args['user'])
         # print(type(shoe))
         print(shoe.__dict__, 'this is the show')
         return shoe
@@ -156,6 +164,13 @@ class Shoe(Resource):
             help = "No user provided",
             location = ['form', 'json']
         )
+        self.reqparse.add_argument(
+            # what are requests need to look like
+            'user',
+            required = True,
+            help = "No user provided",
+            location = ['form', 'json']
+        )
         
         # inherit from all the component properties
         super().__init__()
@@ -164,16 +179,6 @@ class Shoe(Resource):
     def get(self, id):
         ## define a function to find our dog or send a 404
         return shoe_or_404(id)
-
-    # @marshal_with(shoe_fields)
-    # def put(self, id):
-    #     print('hitting put')
-    #     args = self.reqparse.parse_args()
-    #     query =  models.Shoe.update(**args).where(models.Shoe.id==id)
-    #     print(args)
-    #     ##execute the update query
-    #     query.execute()
-    #     return (models.Shoe.get(models.Shoe.id==id), 200)
 
     def delete(self, id):
         query = models.Shoe.delete().where(models.Shoe.id==id)
@@ -234,6 +239,13 @@ class ShoeEdit(Resource):
         self.reqparse.add_argument(
             # what are requests need to look like
             'created_by',
+            required = True,
+            help = "No user provided",
+            location = ['form', 'json']
+        )
+        self.reqparse.add_argument(
+            # what are requests need to look like
+            'user',
             required = True,
             help = "No user provided",
             location = ['form', 'json']

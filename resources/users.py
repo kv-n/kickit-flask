@@ -12,6 +12,7 @@ from flask_bcrypt import check_password_hash
 from peewee import *
 
 user_fields = {
+    'id': fields.String,
     'username': fields.String,
     'email': fields.String,
     'password': fields.String,
@@ -92,7 +93,7 @@ class UserLogin(Resource):
             login_user(logged_user)
             print(current_user)
             print('current_user')
-            return marshal(logged_user.get(), user_fields)
+            return marshal(logged_user, user_fields)
         else:
             return 'Youre email or password doesnt match'
 
