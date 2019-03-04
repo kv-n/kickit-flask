@@ -1,7 +1,7 @@
 import datetime
 import os
 
-from playhouse.https://kickit-api-heroku.herokuapp.com import connect
+from playhouse.db_url import connect
 from peewee import *
 from flask_bcrypt import generate_password_hash
 from flask_login import UserMixin
