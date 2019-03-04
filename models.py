@@ -67,6 +67,7 @@ class Kickit(Model):
     shoe_id = ForeignKeyField(Shoe, backref='shoes')
 
 def initialize():
+    DATABASE.connect()
     DATABASE.create_tables([User, Shoe], safe=True)
     DATABASE.close()
 
