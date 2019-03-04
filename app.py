@@ -45,5 +45,5 @@ if 'ON_HEROKU' in os.environ:
     print('hitting ')
     models.initialize()
 
-    app.run(debug=DEBUG, port=PORT)
+    app.run(debug=config.DEBUG, port=config.PORT)
 
