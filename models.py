@@ -1,5 +1,7 @@
 import datetime
+import os
 
+from playhouse.https://kickit-api-heroku.herokuapp.com import connect
 from peewee import *
 from flask_bcrypt import generate_password_hash
 from flask_login import UserMixin
@@ -64,7 +66,7 @@ class Kickit(Model):
     shoe_id = ForeignKeyField(Shoe, backref='shoes')
 
 def initialize():
-    DATABASE.connect()
+    DATABASE.connect(os.environ.get('https://kickit-api-heroku.herokuapp.com'))
     DATABASE.create_tables([User, Shoe], safe=True)
     DATABASE.close()
 

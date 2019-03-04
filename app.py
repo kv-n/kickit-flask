@@ -7,6 +7,7 @@ from flask_cors import CORS, cross_origin
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 login_manager = LoginManager()
 
+import os
 import models
 
 import config
@@ -26,8 +27,9 @@ def load_user(userid):
     except models.DoesNotExist:
         return None
 
-CORS(users_api, origin=["http://localhost:3000"], supports_credentials=True)
-CORS(shoes_api, origin=["http://localhost:3000"], supports_credentials=True)
+CORS(users_api, origin=["http://localhost:3000", "https://kickit-sneakers.herokuapp.com"], supports_credentials=True)
+CORS(shoes_api, origin=["http://localhost:3000", "https://kickit-sneakers.herokuapp.com"], supports_credentials=True)
+
 
 app.register_blueprint(shoes_api, url_prefix='/api/v1')
 app.register_blueprint(users_api, url_prefix='/api/v1')
@@ -39,7 +41,8 @@ def hello_world():
 
 
 
-if __name__ == '__main__':
+if 'ON_HEROKU' in os.environ:
+    print('hitting ')
     models.initialize()
 
     app.run(debug=DEBUG, port=PORT)
