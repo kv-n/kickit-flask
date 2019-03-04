@@ -7,7 +7,8 @@ from flask_bcrypt import generate_password_hash
 from flask_login import UserMixin
 
 import config
-DATABASE = SqliteDatabase('shoesdatabase.sqlite')
+# DATABASE = SqliteDatabase('shoesdatabase.sqlite')
+DATABASE.connect(os.environ.get('DATABASE_URL'))
 
 
 class User(UserMixin, Model):
@@ -66,7 +67,6 @@ class Kickit(Model):
     shoe_id = ForeignKeyField(Shoe, backref='shoes')
 
 def initialize():
-    DATABASE.connect(os.environ.get('https://kickit-api-heroku.herokuapp.com'))
     DATABASE.create_tables([User, Shoe], safe=True)
     DATABASE.close()
 
