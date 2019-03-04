@@ -1,14 +1,17 @@
 import datetime
+
 import os
 
 from playhouse.db_url import connect
+
+
 from peewee import *
 from flask_bcrypt import generate_password_hash
 from flask_login import UserMixin
 
 import config
 # DATABASE = SqliteDatabase('shoesdatabase.sqlite')
-DATABASE.connect(os.environ.get('DATABASE_URL'))
+DATABASE = connect(os.environ.get('DATABASE_URL'))
 
 
 class User(UserMixin, Model):
